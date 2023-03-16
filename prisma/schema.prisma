@@ -9,3 +9,13 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Contribuinte {
+  id                                     Int      @id @default(autoincrement())
+  cnpj                                   String   @unique @db.VarChar(14)
+  inscricao_estadual                     String?  @db.VarChar(10)
+  nome                                   String   @db.VarChar(100)
+  numero_regime_especial                 String?  @db.VarChar(10)
+  cnpj_centro_distribuicao               String?  @unique @db.VarChar(14)
+  inscricao_estadual_centro_distribuicao String?  @db.VarChar(10)
+}
