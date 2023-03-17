@@ -11,11 +11,16 @@ datasource db {
 }
 
 model Contribuinte {
-  id                                     Int      @id @default(autoincrement())
-  cnpj                                   String   @unique @db.VarChar(14)
-  inscricao_estadual                     String?  @db.VarChar(10)
-  nome                                   String   @db.VarChar(100)
-  numero_regime_especial                 String?  @db.VarChar(10)
-  cnpj_centro_distribuicao               String?  @unique @db.VarChar(14)
-  inscricao_estadual_centro_distribuicao String?  @db.VarChar(10)
+  id                                     Int       @id @default(autoincrement())
+  cnpj                                   String    @unique @db.VarChar(14)
+  inscricao_estadual                     String?   @db.VarChar(10)
+  nome                                   String    @db.VarChar(100)
+  numero_regime_especial                 String?   @db.VarChar(10)
+  cnpj_centro_distribuicao               String?   @unique @db.VarChar(14)
+  inscricao_estadual_centro_distribuicao String?   @db.VarChar(10)
+  created_at                             DateTime  @default(now()) // adiciona a data/hora de criação
+  updated_at                             DateTime  @updatedAt // adiciona a data/hora da última atualização
+  deleted_at                             DateTime? @db.Timestamp(6) // adiciona o soft delete
+
+  @@map("contribuinte")
 }
