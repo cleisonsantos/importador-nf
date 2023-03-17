@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ContribuinteService } from './contribuinte.service';
 import { CreateContribuinteDto } from './dto/create-contribuinte.dto';
 import { UpdateContribuinteDto } from './dto/update-contribuinte.dto';
@@ -8,8 +16,26 @@ export class ContribuinteController {
   constructor(private readonly contribuinteService: ContribuinteService) {}
 
   @Post()
-  create(@Body() createContribuinteDto: CreateContribuinteDto) {
-    return this.contribuinteService.create(createContribuinteDto);
+  async create(
+    @Body()
+    {
+      cnpj,
+      inscricao_estadual,
+      nome,
+      numero_regime_especial,
+      cnpj_centro_distribuicao,
+      inscricao_estadual_centro_distribuicao,
+    }: CreateContribuinteDto,
+  ) {
+    const contribuinte = await this.contribuinteService.create({
+      cnpj,
+      inscricao_estadual,
+      nome,
+      numero_regime_especial,
+      cnpj_centro_distribuicao,
+      inscricao_estadual_centro_distribuicao,
+    });
+    return contribuinte;
   }
 
   @Get()
@@ -23,7 +49,10 @@ export class ContribuinteController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateContribuinteDto: UpdateContribuinteDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateContribuinteDto: UpdateContribuinteDto,
+  ) {
     return this.contribuinteService.update(+id, updateContribuinteDto);
   }
 

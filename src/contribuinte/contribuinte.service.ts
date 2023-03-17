@@ -5,13 +5,33 @@ import { UpdateContribuinteDto } from './dto/update-contribuinte.dto';
 
 @Injectable()
 export class ContribuinteService {
-  constructor(private prisma: PrismaService) {}
-  create(createContribuinteDto: CreateContribuinteDto) {
-    return createContribuinteDto;
+  constructor(private readonly prisma: PrismaService) {}
+  async create({
+    cnpj,
+    inscricao_estadual,
+    nome,
+    numero_regime_especial,
+    cnpj_centro_distribuicao,
+    inscricao_estadual_centro_distribuicao,
+  }: CreateContribuinteDto) {
+    return await this.prisma.contribuinte.create({
+      data: {
+        cnpj,
+        inscricao_estadual,
+        nome,
+        numero_regime_especial,
+        cnpj_centro_distribuicao,
+        inscricao_estadual_centro_distribuicao,
+      },
+      select: {
+        id: true,
+        nome: true,
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all contribuinte`;
+    return this.prisma.contribuinte.findMany();
   }
 
   findOne(id: number) {
