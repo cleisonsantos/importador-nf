@@ -30,19 +30,27 @@ export class ContribuinteService {
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prisma.contribuinte.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} contribuinte`;
+  async findOne(id: number) {
+    return this.prisma.contribuinte.findUnique({ where: { id } });
   }
 
-  update(id: number, updateContribuinteDto: UpdateContribuinteDto) {
+  async update(id: number, updateContribuinteDto: UpdateContribuinteDto) {
     return `This action updates a #${id} contribuinte`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} contribuinte`;
+  async remove(id: number) {
+    try {
+      return await this.prisma.contribuinte.delete({
+        where: { id },
+        select: { id: true, nome: true },
+      });
+    } catch (error) {
+      console.error(error.meta);
+      return false;
+    }
   }
 }
