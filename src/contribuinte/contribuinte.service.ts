@@ -8,20 +8,20 @@ export class ContribuinteService {
   constructor(private readonly prisma: PrismaService) {}
   async create({
     cnpj,
-    inscricao_estadual,
+    inscricaoEstadual,
     nome,
-    numero_regime_especial,
-    cnpj_centro_distribuicao,
-    inscricao_estadual_centro_distribuicao,
+    numeroRegimeEspecial,
+    cnpjCentroDistribuicao,
+    inscricaoEstadualCentroDistribuicao,
   }: CreateContribuinteDto) {
     return await this.prisma.contribuinte.create({
       data: {
         cnpj,
-        inscricao_estadual,
+        inscricaoEstadual,
         nome,
-        numero_regime_especial,
-        cnpj_centro_distribuicao,
-        inscricao_estadual_centro_distribuicao,
+        numeroRegimeEspecial,
+        cnpjCentroDistribuicao,
+        inscricaoEstadualCentroDistribuicao,
       },
       select: {
         id: true,

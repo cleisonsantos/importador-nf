@@ -1,13 +1,13 @@
 export class CreateContribuinteDto {
   cnpj: string;
 
-  inscricao_estadual: string;
+  inscricaoEstadual: string;
 
   nome: string;
 
-  numero_regime_especial: string;
+  numeroRegimeEspecial: string;
 
-  cnpj_centro_distribuicao: string;
+  cnpjCentroDistribuicao: string;
 
-  inscricao_estadual_centro_distribuicao: string;
+  inscricaoEstadualCentroDistribuicao: string;
 }

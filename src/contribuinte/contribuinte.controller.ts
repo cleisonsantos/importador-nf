@@ -22,20 +22,20 @@ export class ContribuinteController {
     @Body()
     {
       cnpj,
-      inscricao_estadual,
+      inscricaoEstadual,
       nome,
-      numero_regime_especial,
-      cnpj_centro_distribuicao,
-      inscricao_estadual_centro_distribuicao,
+      numeroRegimeEspecial,
+      cnpjCentroDistribuicao,
+      inscricaoEstadualCentroDistribuicao,
     }: CreateContribuinteDto,
   ) {
     const contribuinte = await this.contribuinteService.create({
       cnpj,
-      inscricao_estadual,
+      inscricaoEstadual,
       nome,
-      numero_regime_especial,
-      cnpj_centro_distribuicao,
-      inscricao_estadual_centro_distribuicao,
+      numeroRegimeEspecial,
+      cnpjCentroDistribuicao,
+      inscricaoEstadualCentroDistribuicao,
     });
     return contribuinte;
   }
