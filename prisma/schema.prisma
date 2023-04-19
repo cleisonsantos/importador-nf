@@ -11,16 +11,72 @@ datasource db {
 }
 
 model Contribuinte {
-  id                                  Int       @id @default(autoincrement())
-  cnpj                                String    @unique @db.VarChar(14)
-  inscricaoEstadual                   String?   @db.VarChar(10)
-  nome                                String    @db.VarChar(100)
-  numeroRegimeEspecial                String?   @db.VarChar(10)
-  cnpjCentroDistribuicao              String?   @unique @db.VarChar(14)
-  inscricaoEstadualCentroDistribuicao String?   @db.VarChar(10)
-  createdAt                           DateTime  @default(now()) // adiciona a data/hora de criação
-  updatedAt                           DateTime  @updatedAt // adiciona a data/hora da última atualização
-  deletedAt                           DateTime? @db.Timestamp(6) // adiciona o soft delete
+  id                                  Int          @id @default(autoincrement())
+  cnpj                                String       @unique @db.VarChar(14)
+  inscricaoEstadual                   String?      @db.VarChar(10)
+  nome                                String       @db.VarChar(100)
+  numeroRegimeEspecial                String?      @db.VarChar(10)
+  cnpjCentroDistribuicao              String?      @unique @db.VarChar(14)
+  inscricaoEstadualCentroDistribuicao String?      @db.VarChar(10)
+  createdAt                           DateTime     @default(now()) // adiciona a data/hora de criação
+  updatedAt                           DateTime     @updatedAt // adiciona a data/hora da última atualização
+  deletedAt                           DateTime?    @db.Timestamp(6) // adiciona o soft delete
+  NotaFiscal                          NotaFiscal[]
 
   @@map("contribuinte")
+}
+
+model NotaFiscal {
+  id             Int          @id @default(autoincrement())
+  contribuinteId Int
+  contribuinte   Contribuinte @relation(fields: [contribuinteId], references: [id])
+  fileHash       String?
+  nfeId          String //Chave de acesso precedida do literal 'NFe'	Se for possível a expressão NFe (três primeiros dígitos) pode ser descartada
+  mod            Int //Modelo do documento	
+  serie          Int //Série do documento	
+  nNF            Int //Número do documento	
+  dhEmi          DateTime //Data e hora de emissão do documento	
+  tpNF           Boolean //Tipo de operação (entrada ou saída)	
+  indFinal       Boolean //Indicador de operação com consumidor final	
+  refNFe         String //Chave de acesso do documento referenciado	
+  emitCNPJ       String       @db.VarChar(14) //CNPJ do emitente	
+  emitxNome      String       @db.VarChar(100) //Razão social/nome do emitente	
+  emitUF         String       @db.VarChar(2) //Sigla da UF do emitente	
+  emitIE         String?      @db.VarChar(10) //Inscrição estadual do emitente	
+  emitIEST       String?      @db.VarChar(10) //Inscrição estadual ST do emitente	
+  destCNPJ       String       @db.VarChar(14) //CNPJ do destinatário	
+  destxNome      String       @db.VarChar(100) //Razão social/nome do destinatário	
+  destUF         String       @db.VarChar(2) //Sigla da UF do destinatário	
+  destindIEDest  String?      @db.VarChar(10) //Indicador da IE do destinatário	
+  destIE         String?      @db.VarChar(10) //Inscrição estadual do destinatário	
+  detnItem       Int //Detalhamento do produto com o nº do item	
+  cProd          Int //Código do produto	
+  xProd          String       @db.VarChar(150) //Descrição do produto	
+  NCM            Int //Código NCM	
+  CEST           String       @db.VarChar(14) //Código CEST	
+  CFOP           Int //Código Fiscal de Operação e Prestação	
+  uCom           String       @db.VarChar(10) //Unidade comercial	
+  qCom           Decimal      @db.Decimal(9, 3) //Quantidade comercial	
+  vProd          Decimal      @db.Decimal(9, 2) //Valor total bruto do produto	
+  cEANTrib       String       @db.VarChar(14) //GTIN 	
+  vFrete         Decimal      @db.Decimal(9, 2) //Valor total do frete	
+  vSeg           Decimal      @db.Decimal(9, 2) //Valor total do seguro	
+  vDesc          Decimal      @db.Decimal(9, 2) //Valor do desconto	
+  vOutro         Decimal      @db.Decimal(9, 2) //Valor outras despesas	
+  CST            Int //Código de situação tributária	
+  vBC            Decimal      @db.Decimal(9, 2) //Valor da base de cálculo do ICMS	
+  vICMS          Decimal      @db.Decimal(9, 2) //	Valor do ICMS	
+  vBCST          Decimal      @db.Decimal(9, 2) //Valor da base de cálculo do ICMS ST	
+  vICMSST        Decimal      @db.Decimal(9, 2) //Valor do ICMS ST	
+  vFCPST         Decimal      @db.Decimal(9, 2) //Valor do FCP ST	
+  vBCSTRet       Decimal      @db.Decimal(9, 2) //Valor da base de cálculo do ICMS ST retido	
+  vICMSSTRet     Decimal      @db.Decimal(9, 2) //Valor do ICMS ST retido	
+  vFCPSTRet      Decimal      @db.Decimal(9, 2) //Valor do FCP retido por ST	
+  vIPI           Decimal      @db.Decimal(9, 2) //Valor do IPI	
+  cProdANP       Int //Código de produto da ANP	
+  createdAt      DateTime     @default(now()) // adiciona a data/hora de criação
+  updatedAt      DateTime     @updatedAt // adiciona a data/hora da última atualização
+  deletedAt      DateTime?    @db.Timestamp(6) // adiciona o soft delete
+
+  @@map("nota_fiscal")
 }
