@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNotasFiscaiDto } from './dto/create-notas-fiscai.dto';
-import { UpdateNotasFiscaiDto } from './dto/update-notas-fiscai.dto';
+import { CreateNotasFiscaiDto } from './dto/create-nota-fiscal.dto';
+import { UpdateNotasFiscaiDto } from './dto/update-nota-fiscal.dto';
 
 @Injectable()
-export class NotasFiscaisService {
+export class NotaFiscalService {
   create(createNotasFiscaiDto: CreateNotasFiscaiDto) {
     return 'This action adds a new notasFiscai';
   }
 
   findAll() {
-    return `This action returns all notasFiscais`;
+    return `This action returns all NotaFiscal`;
   }
 
   findOne(id: number) {
