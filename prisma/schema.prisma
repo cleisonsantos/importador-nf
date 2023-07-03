@@ -28,8 +28,6 @@ model Contribuinte {
 
 model NotaFiscal {
   id             Int          @id @default(autoincrement())
-  contribuinteId Int
-  contribuinte   Contribuinte @relation(fields: [contribuinteId], references: [id])
   fileHash       String?
   nfeId          String //Chave de acesso precedida do literal 'NFe'	Se for possível a expressão NFe (três primeiros dígitos) pode ser descartada
   mod            Int //Modelo do documento	
@@ -49,16 +47,6 @@ model NotaFiscal {
   destUF         String       @db.VarChar(2) //Sigla da UF do destinatário	
   destindIEDest  String?      @db.VarChar(10) //Indicador da IE do destinatário	
   destIE         String?      @db.VarChar(10) //Inscrição estadual do destinatário	
-  detnItem       Int //Detalhamento do produto com o nº do item	
-  cProd          Int //Código do produto	
-  xProd          String       @db.VarChar(150) //Descrição do produto	
-  NCM            Int //Código NCM	
-  CEST           String       @db.VarChar(14) //Código CEST	
-  CFOP           Int //Código Fiscal de Operação e Prestação	
-  uCom           String       @db.VarChar(10) //Unidade comercial	
-  qCom           Decimal      @db.Decimal(9, 3) //Quantidade comercial	
-  vProd          Decimal      @db.Decimal(9, 2) //Valor total bruto do produto	
-  cEANTrib       String       @db.VarChar(14) //GTIN 	
   vFrete         Decimal      @db.Decimal(9, 2) //Valor total do frete	
   vSeg           Decimal      @db.Decimal(9, 2) //Valor total do seguro	
   vDesc          Decimal      @db.Decimal(9, 2) //Valor do desconto	
@@ -77,6 +65,46 @@ model NotaFiscal {
   createdAt      DateTime     @default(now()) // adiciona a data/hora de criação
   updatedAt      DateTime     @updatedAt // adiciona a data/hora da última atualização
   deletedAt      DateTime?    @db.Timestamp(6) // adiciona o soft delete
+  contribuinteId Int
+  contribuinte   Contribuinte @relation(fields: [contribuinteId], references: [id])
+  Produto        Produto[]
 
   @@map("nota_fiscal")
+}
+
+model Produto {
+  id             Int         @id @default(autoincrement())
+  detnItem       Int //Detalhamento do produto com o nº do item	
+  cProd          Int //Código do produto	
+  xProd          String      @db.VarChar(150) //Descrição do produto	
+  NCM            Int //Código NCM	
+  CEST           String      @db.VarChar(14) //Código CEST	
+  CFOP           Int //Código Fiscal de Operação e Prestação	
+  uCom           String      @db.VarChar(10) //Unidade comercial	
+  qCom           Decimal     @db.Decimal(9, 3) //Quantidade comercial	
+  vProd          Decimal     @db.Decimal(9, 2) //Valor total bruto do produto	
+  cEANTrib       String      @db.VarChar(14) //GTIN
+  uTrib          String
+  qTrib          Decimal     @db.Decimal(9, 4)
+  vUnTrib        Decimal     @db.Decimal(9, 2)
+  indTot         Int
+  vTotTrib       Decimal     @db.Decimal(9, 2)
+  ICMSorig       Int
+  ICMSCST        Int
+  ICMSpRedBCEfet Decimal     @db.Decimal(9, 2)
+  ICMSvBCEfet    Decimal     @db.Decimal(9, 2)
+  ICMSpICMSEfet  Decimal     @db.Decimal(9, 2)
+  ICMSvICMSEfet  Decimal     @db.Decimal(9, 2)
+  PISCST         Int
+  PISvBC         Decimal     @db.Decimal(9, 2)
+  PISpPIS        Decimal     @db.Decimal(9, 2)
+  PISvPIS        Decimal     @db.Decimal(9, 2)
+  COFINSCST      Int
+  COFINSvBC      Decimal     @db.Decimal(9, 2)
+  COFINSpCOFINS  Decimal     @db.Decimal(9, 2)
+  COFINSvCOFINS  Decimal     @db.Decimal(9, 2)
+  NotaFiscal     NotaFiscal? @relation(fields: [notaFiscalId], references: [id])
+  notaFiscalId   Int?
+
+  @@map("produto")
 }
