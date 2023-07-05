@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNotasFiscaiDto } from './dto/create-nota-fiscal.dto';
+import { CreateNotaFiscalDto } from './dto/create-nota-fiscal.dto';
 import { UpdateNotasFiscaiDto } from './dto/update-nota-fiscal.dto';
 
 @Injectable()
 export class NotaFiscalService {
-  create(createNotasFiscaiDto: CreateNotasFiscaiDto) {
+  create(createNotasFiscaiDto: CreateNotaFiscalDto) {
     return 'This action adds a new notasFiscai';
   }
 
